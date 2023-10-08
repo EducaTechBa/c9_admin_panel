@@ -5,6 +5,7 @@
       <v-tab>Leaderboard</v-tab>
       <v-tab>Statistics</v-tab>
       <v-tab v-if="isAdmin">Builder</v-tab>
+      <v-tab v-if="isAdmin">Export</v-tab>
 
       <v-tab-item>
         <leaderboard />
@@ -15,6 +16,9 @@
       <v-tab-item>
         <game-builder />
       </v-tab-item>
+      <v-tab-item>
+        <export />
+      </v-tab-item>
     </v-tabs>
   </v-container>
 </template>
@@ -23,7 +27,8 @@
 import Leaderboard from "@/components/game/statistics/Leaderboard";
 import GeneralStatistics from "@/components/game/statistics/GeneralStatistics";
 import GameBuilder from "@/components/game/Builder";
-
+import Export from "@/components/game/Export";
+ 
 export default {
   name: "Game",
   components: { GameBuilder, GeneralStatistics, Leaderboard },
