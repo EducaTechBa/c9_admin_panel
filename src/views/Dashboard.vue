@@ -19,10 +19,10 @@ export default {
     let response = await fetch("/api/v1/game/status");
     let body = await response.json();
     console.log(body);
-    if (body.success && body.roles.includes("admin")) {
+    if (body.success && body.data.roles.includes("admin")) {
       console.log("yes");
+      this.inTheGame = body.success;
     }
-    this.inTheGame = body.success;
   }
 };
 </script>
