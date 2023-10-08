@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <SearchUsers :search="searchUsers" @newstudents="studentsChanged($event)" />
     <v-simple-table>
       <template v-slot:default>
         <thead>
@@ -33,24 +34,40 @@
 
 <script>
 import { gameStatisticsService } from "@/services";
+import SearchUsers from "@/components/game/statistics/Users";
 
 export default {
   name: "Leaderboard",
+  components: {
+    SearchUsers
+  },
   data() {
     return {
       students: []
     };
   },
   async mounted() {
-    const body = await gameStatisticsService.getLeaderboard();
-    if (body.success === true) {
-      const students = body.data;
-      this.students = students.filter(student => student.points !== null);
+    const response = await gameStatisticsService.getLeaderboard();
+    if (response.success === true) {
+      this.students = response.data;
+    } else {
+      console.log("Failed getting leaderboard:");
+      console.log(response);
     }
   },
   methods: {
     studentClicked(username) {
       this.$router.push(`/game/student?username=${username}`);
+    },
+    async studentsChanged(students) {
+      console.log("Event emmited");
+      if (students.length == 0) {
+        const response = await gameStatisticsService.getLeaderboard();
+        if (response.success === true) {
+          this.students = response.data;
+        }
+      } else
+        this.students = students;
     }
   }
 };

@@ -89,6 +89,25 @@ export default {
     }
     return body;
   },
+  async searchUsers() {
+    let response = await fetch(
+      `/api/v1/game/admin/search?query=${query}`,
+      {
+        method: "get",
+        headers: {
+          Accept: "application/json"
+        }
+      }
+    );
+    let body = await response.json();
+    if (!body.success) {
+      if (body.message && body.message.includes("logged")) {
+        const event = new Event("logout");
+        document.dispatchEvent(event);
+      }
+    }
+    return body;
+  },
   async getGeneral() {
     let response = await fetch("/api/v1/game/admin/stats", {
       method: "get",

@@ -84,9 +84,6 @@ import { gameService } from "@/services";
 
 export default {
   name: "FileEditor",
-  props: {
-    service: Object
-  },
   components: {
     codemirror,
     Editor
