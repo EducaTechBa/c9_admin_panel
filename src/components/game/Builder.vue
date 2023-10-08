@@ -87,6 +87,11 @@
               Create file
             </a>
           </li>
+          <li>
+            <a @click.prevent="solutionsClicked(data)">
+              See solutions
+            </a>
+          </li>
         </template>
         <template v-if="data.type === 'file'">
           <li>
@@ -174,7 +179,6 @@
       <v-col cols="8">
         <v-card class="sticky" tile elevation="2">
           <FileEditor
-            :service="service"
             ref="fileEditor"
             class="editorWrapper"
           />
@@ -213,13 +217,6 @@ export default {
   name: "GameBuilder",
   data() {
     return {
-      service: {
-        name: "uup_game.php",
-        actions: {
-          getContent: "getTaskFileContent",
-          saveContent: "editTaskFile"
-        }
-      },
       modalItem: undefined,
       overlay: false,
       overlayAction: "",
@@ -287,6 +284,9 @@ export default {
       this.overlayAction = action;
       this.modalItem = item;
       this.showOverLay();
+    },
+    solutionsClicked(item) {
+      this.$router.push(`/game/solutions?taskId=${item.scrapedId}`);
     },
     fixIds(item, parent) {
       if (item) {
