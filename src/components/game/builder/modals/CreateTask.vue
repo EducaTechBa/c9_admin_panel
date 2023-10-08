@@ -63,8 +63,8 @@ export default {
         this.isProcessing = true;
         let body = await gameService.createTask({
           assignmentId: this.assignment.scrapedId,
-          name: this.name,
-          displayName: this.displayName,
+          path: this.name,
+          name: this.displayName,
           category: this.selected.id,
           hint: this.hint,
           disabled: this.disabled

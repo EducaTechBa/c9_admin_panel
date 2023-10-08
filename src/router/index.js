@@ -97,7 +97,7 @@ router.beforeEach(async (to, from, next) => {
     } else {
       console.log("RESET STATE");
       store.actions.dispatch("resetState");
-      await fetch("/services/logout.php");
+      await fetch("/api/v1/logout");
       next(Login);
     }
   } else {
@@ -108,7 +108,7 @@ router.beforeEach(async (to, from, next) => {
 document.addEventListener("logout", async () => {
   if (router.currentRoute.path !== "/login") {
     await store.dispatch("resetState");
-    await fetch("/services/logout.php");
+    await fetch("/api/v1/logout");
     await router.push("/login");
   }
 });

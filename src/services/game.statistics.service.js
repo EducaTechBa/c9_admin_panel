@@ -1,8 +1,6 @@
 export default {
-  async getFileContent(student, path, isHistory) {
-    const location = isHistory === true ? "History" : "Work";
-    const action = `student${location}Read`;
-    const url = `/services/game_statistics.php?action=${action}&student=${student}&path=${path}`;
+  async getFileContent(student, assignmentId, taskId, filename) {
+    const url = `/api/v1/game/admin/student_file?student=${student}&assignmentId=${assignmentId}&taskId=${taskId}&filename=${filename}`;
     let response = await fetch(url, {
       method: "get",
       headers: {
@@ -55,7 +53,7 @@ export default {
   },
   async getStudentInfo(username) {
     let response = await fetch(
-      `/services/game_statistics.php?action=studentInfo&student=${username}`,
+      `/api/v1/game/admin/player?student=${username}`,
       {
         method: "get",
         headers: {
@@ -74,7 +72,7 @@ export default {
   },
   async getLeaderboard() {
     let response = await fetch(
-      "/services/game_statistics.php?action=leaderboard",
+      "/api/v1/game/admin/leaderboard",
       {
         method: "get",
         headers: {
@@ -92,7 +90,7 @@ export default {
     return body;
   },
   async getGeneral() {
-    let response = await fetch("/services/game_statistics.php?action=general", {
+    let response = await fetch("/api/v1/game/admin/stats", {
       method: "get",
       headers: {
         Accept: "application/json"
@@ -109,7 +107,7 @@ export default {
   },
   async getAssignments() {
     let response = await fetch(
-      "/services/game_statistics.php?action=getAssignments",
+      "/api/v1/game/admin/assignments",
       {
         method: "get",
         headers: {

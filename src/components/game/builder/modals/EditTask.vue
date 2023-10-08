@@ -64,7 +64,7 @@ export default {
     document.addEventListener("keydown", this._keyListener);
     this.name = this.task.name;
     this.hint = this.task.data.hint;
-    this.disabled = this.task.data.disabled;
+    this.disabled = this.task.disabled;
     let result = this.categories.reduce((cat, item) => {
       if (item.id === this.task.data.category) {
         cat = item;
@@ -83,7 +83,7 @@ export default {
         let body = await gameService.editTask({
           id: this.task.scrapedId,
           name: this.name,
-          categoryId: this.selected.id,
+          category: this.selected.id,
           hint: this.hint,
           disabled: this.disabled
         });

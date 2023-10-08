@@ -16,7 +16,7 @@ export default {
     };
   },
   async mounted() {
-    let response = await fetch("/services/uup_game.php?action=check");
+    let response = await fetch("/api/v1/game/status");
     let body = await response.json();
     console.log(body);
     if (body.success && body.roles.includes("admin")) {

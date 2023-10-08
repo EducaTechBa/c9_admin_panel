@@ -32,7 +32,7 @@ export default {
   },
   actions: {
     login: async function(context, { username, password }) {
-      const response = await fetch(`/services/auth.php`, {
+      const response = await fetch(`/api/v1/auth`, {
         method: "post",
         body: `login=${encodeURIComponent(
           username
@@ -57,7 +57,7 @@ export default {
         });
         context.commit("setRoles", body.roles);
         const profileResponse = await fetch(
-          `/services/users.php?user=${username}`,
+          `/api/v1/users?user=${username}`,
           {
             method: "get",
             headers: {
@@ -86,7 +86,7 @@ export default {
       }
     },
     refresh: async function(context) {
-      const response = await fetch("/services/refresh.php");
+      const response = await fetch("/api/v1/refresh");
       const body = await response.json();
       if (
         (body.success === true || body.success === "true") &&
@@ -102,7 +102,7 @@ export default {
         });
         context.commit("setRoles", body.roles);
         const profileResponse = await fetch(
-          `/services/users.php?user=${body.username}`,
+          `/api/v1/users?user=${body.username}`,
           {
             method: "get",
             headers: {

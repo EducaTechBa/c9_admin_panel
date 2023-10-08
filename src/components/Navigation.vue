@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     async logout() {
-      await fetch("/services/logout.php");
+      await fetch("/api/v1/logout");
       await this.$router.push("/login");
     }
   }

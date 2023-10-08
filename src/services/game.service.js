@@ -1,7 +1,7 @@
 export default {
   async getTaskCategories() {
     const response = await fetch(
-      "/services/uup_game.php?action=getTaskCategories",
+      "/api/v1/game/task_categories",
       {
         method: "get",
         headers: {
@@ -20,7 +20,7 @@ export default {
   },
   async getAssignments() {
     const response = await fetch(
-      "/services/uup_game.php?action=getAssignments&A",
+      "/api/v1/game/admin/assignments",
       {
         method: "get",
         headers: {
@@ -38,22 +38,22 @@ export default {
     return body;
   },
   async createAssignment({
+    path,
     name,
-    displayName,
     points,
     challengePoints,
     active
   }) {
     const response = await fetch(
-      "/services/uup_game.php?action=createAssignment",
+      "/api/v1/game/admin/assignment",
       {
         method: "post",
         headers: {
           Accept: "application/json"
         },
         body: JSON.stringify({
+          path,
           name,
-          displayName,
           points,
           challengePoints,
           active
@@ -70,10 +70,11 @@ export default {
     return body;
   },
   async editAssignment({ id, name, points, challengePoints, active }) {
+    // Path can't be changed
     const response = await fetch(
-      `/services/uup_game.php?action=editAssignment&assignmentId=${id}`,
-      {
-        method: "post",
+      `/api/v1/game/admin/assignment/${id}`,
+       {
+        method: "put",
         headers: {
           Accept: "application/json"
         },
@@ -94,17 +95,17 @@ export default {
     }
     return body;
   },
-  async createTask({ assignmentId, name, displayName, category, hint, disabled }) {
+  async createTask({ assignmentId, path, name, category, hint, disabled }) {
     const response = await fetch(
-      `/services/uup_game.php?action=createTask&assignmentId=${assignmentId}`,
+      `/api/v1/game/admin/task?assignmentId=${assignmentId}`,
       {
         method: "post",
         headers: {
           Accept: "application/json"
         },
         body: JSON.stringify({
+          path,
           name,
-          displayName,
           category,
           hint,
           disabled
@@ -120,17 +121,17 @@ export default {
     }
     return body;
   },
-  async editTask({ id, name, categoryId, hint, disabled }) {
+  async editTask({ id, name, category, hint, disabled }) {
     const response = await fetch(
-      `/services/uup_game.php?action=editTask&taskId=${id}`,
+      `/api/v1/game/admin/task/${id}`,
       {
-        method: "post",
+        method: "put",
         headers: {
           Accept: "application/json"
         },
         body: JSON.stringify({
           name,
-          category: categoryId,
+          category,
           hint,
           disabled
         })
@@ -147,7 +148,7 @@ export default {
   },
   async deleteTask(id) {
     const response = await fetch(
-      `/services/uup_game.php?action=deleteTask&taskId=${id}`,
+      `/api/v1/game/admin/task/${id}`,
       {
         method: "delete",
         headers: {
@@ -166,9 +167,9 @@ export default {
   },
   async createFile({ taskId, name, show, binary, content }) {
     const response = await fetch(
-      `/services/uup_game.php?action=createTaskFile&taskId=${taskId}`,
+      `/api/v1/game/admin/task/${taskId}/file`,
       {
-        method: "post",
+        method: "put",
         headers: {
           Accept: "application/json"
         },
@@ -191,9 +192,9 @@ export default {
   },
   async editFile({ taskId, name, show, binary, content }) {
     const response = await fetch(
-      `/services/uup_game.php?action=editTaskFile&taskId=${taskId}`,
+      `/api/v1/game/admin/task/${taskId}/file/${name}`,
       {
-        method: "post",
+        method: "put",
         headers: {
           Accept: "application/json"
         },
@@ -216,8 +217,8 @@ export default {
   },
   async deleteFile({ taskId, filename }) {
     const response = await fetch(
-      `/services/uup_game.php?action=deleteTaskFile&taskId=${taskId}&name=${filename}`,
-      {
+      `/api/v1/game/admin/task/${taskId}/file/${filename}`,
+       {
         method: "delete",
         headers: {
           Accept: "application/json"
@@ -236,7 +237,7 @@ export default {
   async getFileContent({ taskId, filename }) {
     console.log(`Getting ${filename} ${Date.now()}`);
     const response = await fetch(
-      `/services/uup_game.php?action=getTaskFileContent&taskId=${taskId}&name=${filename}`,
+      `/api/v1/game/admin/task/${taskId}/file/${filename}`,
       {
         method: "get",
         headers: {
@@ -258,8 +259,8 @@ export default {
   },
   async deployFile(taskId, fileName) {
     const response = await fetch(
-      `/services/uup_game.php?action=deployFile&taskId=${taskId}&fileName=${fileName}`,
-      {
+      `/api/v1/game/admin/deploy?task_id=${taskId}&filename=${fileName}`,
+       {
         method: "post",
         headers: {
           Accept: "application/json"
@@ -267,5 +268,7 @@ export default {
       }
     );
     console.log(`Deployment responose: ${JSON.stringify(response)}`);
+    const body = await response.json();
+    return body;
   }
 };
