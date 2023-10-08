@@ -267,7 +267,77 @@ export default {
         }
       }
     );
-    console.log(`Deployment responose: ${JSON.stringify(response)}`);
+    console.log(`Deployment response: ${JSON.stringify(response)}`);
+    const body = await response.json();
+    return body;
+  },
+  async resetGame(student) {
+    const response = await fetch(
+      `/api/v1/game/admin/reset?student=${student}`,
+      {
+        method: "post",
+        headers: {
+          Accept: "application/json"
+        }
+      }
+    );
+    console.log(`Game reset response: ${JSON.stringify(response)}`);
+    const body = await response.json();
+    return body;
+  },
+  async resetAssignment(student, assignmentId) {
+    const response = await fetch(
+      `/api/v1/game/admin/reset?student=${student}&assignmentId=${assignmentId}`,
+      {
+        method: "post",
+        headers: {
+          Accept: "application/json"
+        }
+      }
+    );
+    console.log(`Game reset response: ${JSON.stringify(response)}`);
+    const body = await response.json();
+    return body;
+  },
+  async requestRedo(student, assignmentId, taskId, reason) {
+    const response = await fetch(
+      `/api/v1/game/admin/request_redo`,
+      {
+        method: "post",
+        headers: {
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          student: student,
+          assignmentId: assignmentId,
+          taskId: taskId,
+          reason: reason
+        })
+
+      }
+    );
+    console.log(`Request redo: ${JSON.stringify(response)}`);
+    const body = await response.json();
+    return body;
+  },
+  async gradeTask(student, assignmentId, taskId, points, preventSecondChance) {
+    const response = await fetch(
+      `/api/v1/game/admin/grade`,
+      {
+        method: "post",
+        headers: {
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          student: student,
+          assignmentId: assignmentId,
+          taskId: taskId,
+          points: points,
+          preventSecondChance: preventSecondChance
+        })
+      }
+    );
+    console.log(`Grade task: ${JSON.stringify(response)}`);
     const body = await response.json();
     return body;
   }
