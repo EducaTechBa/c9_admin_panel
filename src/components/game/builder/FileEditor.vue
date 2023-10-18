@@ -129,7 +129,8 @@ export default {
         "zadaca",
         "json",
         "txt",
-        "autotest2"
+        "autotest2",
+        "autotest3"
       ],
       isSaving: false
     };
@@ -287,7 +288,7 @@ export default {
         this.binary = this.file.data.binary;
         this.show = this.file.data.show;
         if (
-          ["autotest", "zadaca", "json", "autotest2"].includes(
+          ["autotest", "zadaca", "json", "autotest2", "autotest3"].includes(
             this.extensionRegex.exec(file.name)[1]
           )
         ) {
