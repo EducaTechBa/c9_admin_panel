@@ -45,7 +45,7 @@
         <v-spacer />
         <v-checkbox label="Show" v-model="show"></v-checkbox>
         <v-spacer />
-        <v-btn v-if="editable.type === 'autotest2'" @click="openGenerator"
+        <v-btn v-if="editable.type === 'autotest2' || editable.type === 'autotest3'" @click="openGenerator"
           >Open generator
         </v-btn>
         <v-spacer />
@@ -80,6 +80,7 @@ import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import { Editor } from "@toast-ui/vue-editor";
 
 import GeneratorFrame from "@/components/GeneratorFrame";
+import GeneratorFrameV3 from "@/components/GeneratorFrameV3";
 import { gameService } from "@/services";
 
 export default {
@@ -148,7 +149,7 @@ export default {
   },
   methods: {
     openGenerator() {
-      if (this.editable.type === "autotest2") {
+      if (this.editable.type === "autotest2" || this.editable.type === "autotest3") {
         let config = this.fileContent;
         if (this.file && this.file.parent && this.file.parent.parent) {
           if (config === "") {
@@ -198,7 +199,7 @@ export default {
             parent.removeChild(child);
           }
         };
-        const FrameClass = Vue.extend(GeneratorFrame);
+        const FrameClass = (this.editable.type === "autotest3") ? Vue.extend(GeneratorFrameV3) : Vue.extend(GeneratorFrame);
         let frame = new FrameClass({
           propsData: {
             save: saveFunction,
